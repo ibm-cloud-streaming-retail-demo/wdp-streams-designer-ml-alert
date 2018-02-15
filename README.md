@@ -65,6 +65,4 @@ TODO
 
 # Simulating a risky transaction
 
-TODO
-
-TODO ...
+TODO describe how to do this and how to see it flow through to email
