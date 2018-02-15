@@ -29,6 +29,8 @@ In this section we walk step-by-step through setting up the Streams environment.
 
 The overall streams flow looks like this:
 
-<img src="./images/streams_designer_flow.png" alt="Streams Designer Flow" style="width: 50%;"/>
+<div style="width:50%">
+<img src="./images/streams_designer_flow.png" alt="Streams Designer Flow"/>
+</div>
 
 TODO ...
