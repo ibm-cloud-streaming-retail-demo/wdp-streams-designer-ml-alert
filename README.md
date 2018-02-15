@@ -27,10 +27,44 @@ Streams Designer requires the LogisicRegression model to be created with the sam
 
 In this section we walk step-by-step through setting up the Streams environment.
 
-The overall streams flow looks like this:
+The overall streams flow looks like this (TODO replace with Joe's image):
 
 <div style="width:50%">
 <img src="./images/streams_designer_flow.png" alt="Streams Designer Flow"/>
 </div>
+
+- **Message Hub** Our events arrive into our streaming application via. IBM Message Hub
+- **Python Machine Learning** Each event is scored for their probability of being cancelled using a Logistic Regression machine learning model
+- **Filter** Events that have a probability <70% are ignored.  The rest are sent to the SMTP endpoint
+- **SMTP** The SMTP sends an email containing the event details.
+- **COS S3** Events are also persisted to COS S3 for an audit trail and offline analysis
+
+### Message Hub source setup
+
+TODO
+
+### Python Machine Learning setup
+
+TODO
+
+### Filter setup
+
+TODO
+
+### SMTP setup
+
+TODO
+
+### COS S3 setup
+
+TODO
+
+## Monitoring the streams flow
+
+TODO
+
+# Simulating a risky transaction
+
+TODO
 
 TODO ...
