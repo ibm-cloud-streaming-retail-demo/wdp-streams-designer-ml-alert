@@ -27,4 +27,8 @@ Streams Designer requires the LogisicRegression model to be created with the sam
 
 In this section we walk step-by-step through setting up the Streams environment.
 
+The overall streams flow looks like this:
+
+![Streams Designer Flow](./images/streams_designer_flow.png "Streams Designer Flow")
+
 TODO ...
