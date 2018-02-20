@@ -4,7 +4,7 @@ The purpose of this project is to create a Streams Designer application that lis
 
 # Dependencies
 
-- This project has a dependency on the [kafka-producer-for-simulated-data](https://github.com/ibm-cloud-streaming-retail-demo/kafka-producer-for-simulated-data) project being deployed
+- This project has a dependency on the [kafka-producer-for-simulated-data](https://github.com/ibm-cloud-streaming-retail-demo/kafka-producer-for-simulated-data) project being deployed.
 
 # Prerequisites
 
@@ -87,7 +87,15 @@ def load_logistic_model(state, path_logistic_model):
 	state['logistic_model'] = pickle.load(open(path_logistic_model, 'rb'))
 ```
 
-TODO Data Schema
+Still in Python Machine Learning node settings, click 'Edit Output Schema'. Enter enter three attributes, as below:
+
+| Attribute name |  Type  |
+| -------------- |:------:|
+| transaction_id | Number |
+| invoice_date   | Number |
+| prob_cancelled | Number |
+
+Click Save, then Close.
 
 Finally, connect the two nodes by drawing a line from one to the other on the canvas.
 
@@ -102,20 +110,46 @@ From the 'Processing and Analytics' node group, drag and drop the 'Filter' node 
 ```
 prob_cancelled >= 0.65
 ```
-You can learn more about filter expressions in [the documentation](https://dataplatform.ibm.com/docs/content/streaming-pipelines/filter.html)
+You can learn more about filter expressions in [the documentation].(https://dataplatform.ibm.com/docs/content/streaming-pipelines/filter.html)
+
+Connect the filter node to the Python Machine Learning node.
 
 ### SMTP setup
 
-TODO
+*NB: E-mail alerts require credentials to an SMTP server.*
+
+From the 'Alerts' node group, drag and drop the 'E-mail' node onto the canvas. In the settings of the node, enter the details of your SMTP server (this could be via the SendGrid service on IBM Cloud, or your own SMTP server.)
+
+```
+Example Subject:
+ACTION REQUIRED : Risky Transaction Identified (ID: {{transaction_id}})
+
+Example Body:
+Hello,
+The Risky Transaction Service has identified the below risky transaction, details below:
+Transaction ID : {{transaction_id}}
+Invoice Date : {{invoice_date}}
+Please action ASAP.
+
+DO NOT REPLY TO THIS EMAIL
+```
+
+Connect the E-mail node to the filter node.
 
 ### COS S3 setup
 
-TODO
+#### Bucket setup
 
-## Monitoring the streams flow
+Navigate to your [IBM Cloud Dashboard](https://console.bluemix.net/dashboard/apps/), and under Services click on your Cloud Object Store. Create two new buckets, `streaming-data-output` and `streaming-risky-transactions`.
 
-TODO
+#### Streaming Flows node setup
+
+From the 'Targets' node group, drag and drop two 'Cloud Object Store' nodes onto the canvas. For each node, add the connection details to your COS instance, and a file path, referencing the two buckets that you just created (`streaming-data-output` bucket for Python Machine Learning output, and `streaming-risky-transactions` for filtered output.) Set the format and the file creation variables (e.g. CSV, 10k events per file). Connect the COS nodes to the respective nodes in the flow.
+
+## Deploying and Monitoring the Streams flow
+
+Deploy the flow by clicking the 'Save and Run the Streams Flow' button in the toolbar (▶). If you are prompted to start the Streaming Analytics service, click yes. You will now see the flow deploy and run, similar to the gif [above].(https://github.com/ibm-cloud-streaming-retail-demo/wdp-streams-designer-ml-alert#deploy-the-streams-flow) You can see the rate of incoming data in the available graphs. To view a sample of incoming data at any point during the flow, click the pipe between two nodes.
 
 # Simulating a risky transaction
 
-TODO describe how to do this and how to see it flow through to email
+The [kafka-producer-for-simulated-data](https://github.com/ibm-cloud-streaming-retail-demo/kafka-producer-for-simulated-data) allows you to generate a risky transaction to demo the machine learning model being triggered. To generate a risky transaction, open a new browser tab and to go http://your-app-url.mybluemix.net/simulate_risky_transaction. You will see the details of the risky transaction in the new tab. Switch back to the streaming flow, and you will see the transaction flow through (hover over the filter or e-mail node to see the total throughput).
