@@ -39,6 +39,8 @@ The overall streams flow looks like this:
 - **SMTP** The SMTP sends an email containing the event details.
 - **COS S3** Events are also persisted to COS S3 for an audit trail and offline analysis
 
+There are two ways you can deploy this flow. The first is to build the flow manually, dragging and dropping nodes onto the canvas. This process is documented below. The other is to import the [retail_streaming.stp](./retail_streaming.stp) as a starting point, and populate the settings on each node with the service credentials from your IBM Cloud account. In order to do this, from your project click 'New Streams Flow' and select the 'From File' option. Drag and drop the .stp file into the form and populate the remaining details. In the Flow dashboard, click the edit button (pencil icon) on the top right, and then follow through the notifications to add the required parameters to each of the nodes.
+
 ### Message Hub source setup
 
 From the 'Sources' node group, drag and drop the Message Hub node onto the canvas. In the settings on the right hand side, click 'Add Connection'.  If you are connection to a Message Hub instance provisioned in your IBM Cloud account, selecting the instance will automatically populate form with the connection credentials.  Else, select 'IBM Message Hub', and copy and paste the Connection Details from the 'Service Credentials' tab of the Message Hub instance you wish to connect to.
